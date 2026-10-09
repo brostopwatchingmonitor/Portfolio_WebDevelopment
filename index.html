@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Alif Shidqi — Portfolio 2026</title>
+  <meta name="description" content="Graphic design portfolio: branding, illustration, packaging, photography.">
+
+  <!-- Preconnect to critical origins (Priority Hints) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Passion+One:wght@400;700&family=Fredoka:wght@300;400&family=Montserrat:ital,wght@0,400;0,700;1,300&family=Caveat:wght@600&display=swap&subset=vietnamese"
+    rel="stylesheet">
+
+  <!-- Tailwind v3 Play CDN: tokens live in :root, referenced via var() -->
+  <script src="https://cdn.tailwindcss.com/3.4.17" fetchpriority="high"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            locker:   'var(--locker)',
+            butter:   'var(--butter)',
+            charcoal: 'var(--charcoal)',
+            navy:     'var(--navy)',
+            brick:    'var(--brick)',
+            cream:    'var(--cream)'
+          },
+          fontFamily: {
+            label: 'var(--f-label)',
+            body:  'var(--f-body)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Main stylesheet (Priority Hint: high) -->
+  <link rel="stylesheet" href="styles.css" fetchpriority="high">
+
+  <!-- Motion stack + icons (deferred, run in order) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- App entry point -->
+  <script defer src="main.js"></script>
+</head>
+
+<body>
+<a class="skip" href="#work">Skip to work</a>
+
+<!-- ===================== NAV ===================== -->
+<header id="nav" class="nav">
+  <a class="logo tag tag--navy" href="#top">Alif Shidqi</a>
+  <nav aria-label="Primary">
+    <a class="tag tag--yellow" href="#work">Work</a>
+    <a class="tag tag--lime"   href="#about">About</a>
+    <a class="tag tag--red"    href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="top">
+  <!-- ===================== HERO ===================== -->
+  <section class="scene hero" aria-labelledby="hero-title">
+    <i class="bg" data-bg></i>
+    <div class="starburst" data-orn aria-hidden="true">2026</div>
+    <div class="sticky-note-hero" data-orn aria-hidden="true">
+      <i class="pin"></i>Dream bigger.<br>Bigger.<br><b>BIGGER</b>
+    </div>
+    <div class="board" data-board>
+      <h1 id="hero-title" class="die" data-title data-t="Your Name's Portfolio">
+        <small>Alif Shidqi</small>PORTFOLIO
+      </h1>
+      <p class="hero-sub" data-hero-in>Graphic design · Branding · Illustration</p>
+      <a class="badge badge--yellow" data-hero-in href="#work">
+        See my work <i data-lucide="arrow-right" class="icon-inline"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===================== TOC / WORK ===================== -->
+  <section id="work" class="scene toc" aria-labelledby="work-title">
+    <i class="bg" data-bg></i>
+    <h2 id="work-title" class="die die--sm" data-reveal data-t="Table of Contents">Table of Contents</h2>
+    <ul class="box" data-stagger>
+      <li><a class="o obj envelope"    href="#digital-arts">Typography</a></li>
+      <li><a class="o obj note"        href="#digital-arts">Branding</a></li>
+      <li><a class="o obj kraft"       href="#icons">Packaging</a></li>
+      <li><a class="o obj folder-blue" href="#digital-arts">Illustration Books</a></li>
+      <li><a class="o obj tape-lime"   href="#icons">Photography</a></li>
+    </ul>
+  </section>
+
+  <!-- ===================== CHAPTER: DIGITAL ARTS ===================== -->
+  <section id="digital-arts" class="chapter chapter--yellow torn pb-24" aria-labelledby="da-title">
+    <div class="folder-tabs" aria-hidden="true"><i></i><i></i></div>
+    <h2 id="da-title" class="tab-title" data-reveal>Digital Arts</h2>
+    <div class="prints" data-stagger>
+      <figure class="o print r-l"><i class="pin"></i><div class="art a1"></div><figcaption>Project title</figcaption></figure>
+      <figure class="o print r-m"><i class="pin"></i><div class="art a2"></div><figcaption>Project title</figcaption></figure>
+      <figure class="o print r-r"><i class="pin"></i><div class="art a3"></div><figcaption>Project title</figcaption></figure>
+    </div>
+    <p class="cap" data-reveal>A few paintings I love, drawn from 2021 until now.</p>
+  </section>
+
+  <!-- ===================== CHAPTER: ICON SET ===================== -->
+  <section id="icons" class="chapter chapter--dark torn pb-24" aria-labelledby="ic-title">
+    <div class="chapter-head" data-reveal>
+      <h2 id="ic-title" class="paper-note">Icon Set</h2>
+      <p lang="vi">
+        Mô tả ngắn về dự án bằng tiếng Việt ở đây.<br>
+        <em>Short English description of the project goes here.</em>
+      </p>
+    </div>
+    <ul class="tiles" data-stagger>
+      <li class="tile">Tile 1</li><li class="tile">Tile 2</li>
+      <li class="tile">Tile 3</li><li class="tile">Tile 4</li>
+      <li class="tile">Tile 5</li><li class="tile">Tile 6</li>
+      <li class="tile">Tile 7</li><li class="tile">Tile 8</li>
+    </ul>
+  </section>
+
+  <!-- ===================== ABOUT ===================== -->
+  <section id="about" class="scene book torn" aria-labelledby="about-title">
+    <div class="about-grid">
+      <figure class="o polaroid" data-stick>
+        <i class="pin"></i>
+        <div class="art a2"></div>
+        <figcaption class="hand">Your photo here</figcaption>
+      </figure>
+      <div class="about-text" data-reveal>
+        <h2 id="about-title" class="greet">
+          <span>Hi, I'm <b>YOUR</b></span>
+          <span class="you">You can call me</span>
+          <strong class="name">NAME<br>SURNAME</strong>
+        </h2>
+        <p>I'm a <b>Graphic Design Intern</b> based in Vietnam, focusing on branding and social media. I create visually engaging, trend-driven content with a touch of illustration to make my work distinctive.</p>
+      </div>
+    </div>
+
+    <div class="resume" data-stagger>
+      <div class="row">
+        <span class="badge badge--yellow" style="padding-left: 14%;">Experience</span>
+        <div class="sticky-note">
+          <h3>Freelance digital artist (2019 – Now)</h3>
+          <h3>Design contest (2023)</h3>
+          <h3>School projects (2022 – Now)</h3>
+          <p>Typography · Social media · Album art · Brand identity · Packaging</p>
+        </div>
+      </div>
+      <div class="row">
+        <span class="badge badge--red" style="padding-left: 14%;">Education</span>
+        <p><b>YOUR UNIVERSITY (2022 – On going)</b><br>4th-year student<br>Graphic Design major</p>
+      </div>
+      <div class="row">
+        <span class="badge badge--blue" style="padding-left: 4%;">Certification</span>
+        <p><b>“CONTEST NAME”</b> certified to participate in <b>“Event Name” (2023)</b>. Selected for exhibition by <b>ORGANISATION NAME</b>.</p>
+      </div>
+      <div class="row">
+        <span class="badge badge--yellow" style="padding-left: 14%;">Softwares</span>
+        <ul class="sw" aria-label="Software"><li>Ps</li><li>Ai</li><li>Id</li><li>Lr</li><li>Fg</li></ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== FOOTER / CONTACT ===================== -->
+<footer id="contact" class="scene foot">
+  <i class="bg" data-bg></i>
+  <div data-stagger class="contents">
+    <div class="o mail">
+      <h2 class="hand">Let's contact!</h2>
+      <p>
+        <b>P/ZALO:</b> +84 000 000 000<br>
+        <b>E:</b> <a href="mailto:you@example.com">you@example.com</a><br>
+        <b>A:</b> Ho Chi Minh City, Vietnam
+      </p>
+    </div>
+    <a class="o qr r-l" href="#" aria-label="Instagram">
+      <span></span>
+      <i data-lucide="instagram" class="icon-inline"></i>@your_handle
+    </a>
+    <a class="o qr r-r" href="#" aria-label="Behance">
+      <span></span>
+      <i data-lucide="palette" class="icon-inline"></i>@your_behance
+    </a>
+  </div>
+  <p class="copy">© 2026 Your Name</p>
+</footer>
+
+<!-- ===================== MOTION SPEED CONTROL ===================== -->
+<!-- <div class="speed" role="group" aria-label="Motion speed">
+  <span>Motion</span>
+  <button type="button" data-speed="0.5">.5×</button>
+  <button type="button" data-speed="1" aria-pressed="true">1×</button>
+  <button type="button" data-speed="1.5">1.5×</button>
+  <button type="button" data-speed="off">Off</button>
+</div> -->
+</body>
+</html>
