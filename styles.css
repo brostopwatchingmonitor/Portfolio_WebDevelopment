@@ -333,9 +333,26 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Art placeholder gradients */
 .art      { aspect-ratio: 3/4; background: linear-gradient(160deg, var(--marigold), var(--brick)); }
-.art.a1   { background-image: url("img/Web/webFasya.png"); }
-.art.a2   { background: linear-gradient(135deg, var(--cobalt),   var(--sky)); }
-.art.a3   { background: linear-gradient(150deg, var(--tape),     var(--locker-lit)); }
+.art.a1   {
+  background-image: url("img/Web/webFasya.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.art.a2   { 
+  background-image: url("img/Web/indomontir.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat; 
+}
+
+.art.a3   { 
+  background-image: url("img/Web/it.png");
+  background-position: left;
+  background-size: cover;
+  background-repeat: no-repeat;  
+}
+.art.a4   {background: linear-gradient(150deg, var(--tape),     var(--locker-lit));}
 
 /* ============================================================
    TOC BOX
