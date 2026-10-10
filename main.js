@@ -262,4 +262,92 @@
     const map = { fast: "0.5", slow: "1.5", off: "off" };
     applySpeed(map[urlSpeed] || "1");
   }
+
+  /* ============================================================
+     POLISH — additive motion only (nothing existing was changed)
+     1. scroll progress bar   2. ambient ornament float
+     3. hero pointer depth     4. magnetic CTA
+     ============================================================ */
+
+  /* --- 1. Scroll progress bar (created here, not in HTML) --- */
+  const prog = document.body.appendChild(
+    Object.assign(document.createElement("i"), { className: "scroll-prog" })
+  );
+  gsap.to(prog, {
+    scaleX: 1,
+    ease: "none",
+    scrollTrigger: { start: 0, end: "max", scrub: 0.3 }
+  });
+
+  /* --- Shared gate: wait until the entrance timeline has cleared
+         its clearProps tweens before taking over transforms --- */
+  let settled = false;
+  gsap.delayedCall(D.slowest + 1.2, () => { settled = true; });
+
+  const fine = matchMedia("(pointer: fine)").matches;
+  const star = q(".starburst")[0];
+  const note = q(".sticky-note-hero")[0];
+
+  /* --- 2. Ambient float on hero ornaments (y only, so it never
+         fights the scroll-scrubbed rotation or pointer x) --- */
+  gsap.delayedCall(D.slowest + 1.2, () => {
+    if (star)
+      gsap.to(star, {
+        y: "+=10", duration: 2.6,
+        ease: "sine.inOut", yoyo: true, repeat: -1
+      });
+    if (note)
+      gsap.to(note, {
+        y: "+=8", duration: 3.2,
+        ease: "sine.inOut", yoyo: true, repeat: -1, delay: 0.5
+      });
+  });
+
+  /* --- 3. Hero pointer depth: board up close, ornaments behind --- */
+  const heroEl = q(".hero")[0];
+  if (heroEl && fine) {
+    const layers = [
+      { el: board[0], amt: 10 },
+      { el: star,     amt: 20 },
+      { el: note,     amt: 14 }
+    ].filter((l) => l.el);
+
+    /* ornaments get x-only here — their y belongs to the float */
+    const setters = layers.map((l) => ({
+      x: gsap.quickTo(l.el, "x", { duration: 0.8, ease: "power3" }),
+      y: l.el === board[0] ? gsap.quickTo(l.el, "y", { duration: 0.8, ease: "power3" }) : null,
+      amt: l.amt
+    }));
+
+    heroEl.addEventListener("pointermove", (e) => {
+      if (!settled) return;
+      const r = heroEl.getBoundingClientRect();
+      const nx = (e.clientX - r.left) / r.width - 0.5;
+      const ny = (e.clientY - r.top) / r.height - 0.5;
+      setters.forEach((s) => {
+        s.x(nx * s.amt);
+        if (s.y) s.y(ny * s.amt);
+      });
+    });
+    heroEl.addEventListener("pointerleave", () =>
+      setters.forEach((s) => {
+        s.x(0);
+        if (s.y) s.y(0);
+      })
+    );
+  }
+
+  /* --- 4. Magnetic CTA: "See my work" leans toward the cursor --- */
+  const cta = q("[data-hero-in].badge")[0];
+  if (cta && fine) {
+    const mx = gsap.quickTo(cta, "x", { duration: 0.5, ease: "power3" });
+    const my = gsap.quickTo(cta, "y", { duration: 0.5, ease: "power3" });
+    cta.addEventListener("pointermove", (e) => {
+      if (!settled) return;
+      const r = cta.getBoundingClientRect();
+      mx((e.clientX - (r.left + r.width / 2)) * 0.35);
+      my((e.clientY - (r.top + r.height / 2)) * 0.35);
+    });
+    cta.addEventListener("pointerleave", () => { mx(0); my(0); });
+  }
 })();

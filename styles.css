@@ -710,4 +710,61 @@ html.lenis, html.lenis body { height: auto; }
   body.motion-fast,
   body.motion-slow { --motion-speed: 0; }
   * { transition: none !important; scroll-behavior: auto; }
+  .scroll-prog { display: none; }
+}
+
+/* ============================================================
+   POLISH — additive motion & style (no structural changes)
+   ============================================================ */
+
+/* Ink-style text selection */
+::selection { background: var(--sticker-yellow); color: var(--charcoal); }
+
+/* Scroll progress bar (element created by main.js) */
+.scroll-prog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--sticker-yellow), var(--tape));
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* TOC tiles: sticker lift + tilt on hover */
+  .tile {
+    cursor: default;
+    transition:
+      translate   var(--duration-normal) var(--ease-out-quart),
+      rotate      var(--duration-normal) var(--ease-out-quart),
+      box-shadow  var(--duration-normal) var(--ease-out-quart);
+  }
+  .tile:hover {
+    translate: 0 -8px;
+    rotate: -1.5deg;
+    box-shadow: var(--shadow-hover);
+  }
+  .tile:nth-child(even):hover { rotate: 1.5deg; }
+
+  /* Software chips: playful pop */
+  .sw li {
+    transition:
+      scale  var(--duration-normal) var(--ease-spring),
+      rotate var(--duration-normal) var(--ease-out-quart);
+  }
+  .sw li:hover { scale: 1.12; rotate: -4deg; }
+
+  /* Photo prints: art warms up + caption inks navy on hover */
+  .print .art {
+    transition: filter var(--duration-slower) var(--ease-out-expo);
+  }
+  .print:hover .art { filter: saturate(1.12) contrast(1.03); }
+  .print figcaption {
+    transition: color var(--duration-normal) var(--ease-out-quart);
+  }
+  .print:hover figcaption { color: var(--navy); }
 }
