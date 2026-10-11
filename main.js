@@ -77,8 +77,14 @@
   const settleS = num("--settle-scale");
   const settleR = num("--settle-rotate");
 
-  /* ---------- Lenis synced to ScrollTrigger (single RAF loop) ---------- */
-  window.lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+  /* ---------- Lenis synced to ScrollTrigger (single RAF loop) ----------
+     Tuned 2026-10-11: lower lerp = longer, glassier glide;
+     wheelMultiplier < 1 = wheel scroll not too fast. */
+  window.lenis = new Lenis({
+    lerp: 0.075,
+    smoothWheel: true,
+    wheelMultiplier: 0.85
+  });
   lenis.on("scroll", ScrollTrigger.update);
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
@@ -104,8 +110,8 @@
         y: 0,
         scale: 1,
         rotation: el._r,
-        duration: D.slow,
-        ease: E.spring,
+        duration: D.slower,
+        ease: E.quart,
         delay: delay + i * each,
         clearProps: "transform,opacity"
       });
@@ -115,8 +121,8 @@
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: D.slow,
-          ease: E.spring,
+          duration: D.slower,
+          ease: E.quart,
           delay: delay + i * each + ST.loose,
           clearProps: "transform,opacity"
         });
@@ -158,13 +164,15 @@
       });
     }, "> -0.1");
 
-  /* ---------- Pattern 2: scroll-reveal-section ---------- */
+  /* ---------- Pattern 2: scroll-reveal-section ----------
+     Smoother (2026-10-11): 700ms soft power3 landing (timing-calibration:
+     complex reveals 400-600ms+, larger elements read slower) */
   q("[data-reveal]").forEach((el) =>
     gsap.from(el, {
       opacity: 0,
       y: dist,
-      duration: D.slower,
-      ease: E.expo,
+      duration: D.slowest,
+      ease: E.quart,
       clearProps: "transform,opacity",
       scrollTrigger: { trigger: el, start: "top 82%", once: true }
     })
@@ -422,5 +430,88 @@
         opacity: 1, scale: 1, duration: D.slow, ease: E.spring, stagger: ST.normal
       });
     });
+  }
+
+  /* ============================================================
+     PATTERN 7 — method chain (mc-flow, data-chain)
+     The chain builds itself: card → arrow → card → …, then one
+     marigold pulse travels through the arrows, then the Result
+     card pops. Arrow draw/pulse tweens the --arrow custom
+     property (the ::after uses scaleX(var(--arrow, 1)) — default
+     1, so reduced-motion/no-JS always shows the final state).
+     Initial hiding is JS-side via hide() → also reduced-safe.
+     ============================================================ */
+  const mc = q("[data-chain]")[0];
+  if (mc) {
+    const steps = q(".mc-step", mc);
+    if (steps.length) {
+      hide(steps);                       /* sticker-hide + pins (like Pattern 3) */
+      gsap.set(steps, { "--arrow": 0 }); /* collapse chain arrows */
+
+      /* Phase 3a+3b: one-shot pulse + Result pop — fired when the
+         scrubbed build completes; killed on enterBack so it replays. */
+      let pulse = null;
+      const makePulse = () => {
+        const t = gsap.timeline();
+        const n = steps.length - 1;
+        for (let k = 0; k < n; k++) {
+          const at = k * ST.loose * 1.5;
+          t.to(steps[k], { "--arrow": 1.5, duration: ST.loose, ease: "power2.out" }, at);
+          t.to(steps[k], { "--arrow": 1, duration: D.slow, ease: "power2.inOut" }, at + ST.loose);
+        }
+        const endAt = n > 0 ? (n - 1) * ST.loose * 1.5 + ST.loose + D.slow : 0;
+        t.to(steps[n], { scale: 1.06, duration: D.slow, ease: "power2.out" }, endAt)
+          .to(steps[n], { scale: 1, duration: D.slower, ease: "elastic.out(1,0.45)" });
+        return t;
+      };
+
+      /* Phase 1+2 — SCRUBBED build: cards + arrows follow the scroll
+         (gsap-scroll skill: scrub 0.5 reads smoother than true) */
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: mc,
+          start: "top 85%",
+          end: "bottom 55%",
+          scrub: 0.5,
+          invalidateOnRefresh: true,
+          onLeave: () => { if (pulse) pulse.kill(); pulse = makePulse(); },
+          onEnterBack: () => { if (pulse) { pulse.kill(); pulse = null; } }
+        }
+      });
+      const unit = D.slow + ST.loose;
+
+      steps.forEach((s, i) => {
+        const at = i * unit;
+        if (i > 0)
+          tl.to(steps[i - 1], { "--arrow": 1, duration: D.slow, ease: E.quart }, at - ST.loose);
+        tl.to(s, {
+          opacity: 1, y: 0, scale: 1, rotation: s._r,
+          duration: D.slow, ease: E.quart, clearProps: "transform,opacity"
+        }, at);
+        const pin = s.querySelector(".pin");
+        if (pin)
+          tl.to(pin, {
+            opacity: 1, y: 0, scale: 1,
+            duration: D.slow, ease: E.quart, clearProps: "transform,opacity"
+          }, at + ST.loose);
+      });
+
+      /* Bonus — icons drift ±5° while the section passes (separate
+         elements → zero conflict with the card build tweens) */
+      gsap.fromTo(
+        q(".mc-step .ico", mc),
+        { rotation: (i) => (i % 2 ? -5 : 5) },
+        {
+          rotation: (i) => (i % 2 ? 5 : -5),
+          ease: "none",
+          stagger: ST.loose,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: mc, start: "top bottom", end: "bottom top",
+            scrub: 0.5, invalidateOnRefresh: true
+          }
+        }
+      );
+    }
   }
 })();

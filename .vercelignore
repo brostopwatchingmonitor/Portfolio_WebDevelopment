@@ -1,0 +1,9 @@
+# Internal files — never ship to the public server
+.claude/
+.superpowers/
+.vercel/
+node_modules/
+
+# Internal docs & audit evidence (claim rules, HAR data, progress log)
+markdownfile/
+PORTFOLIO_IDEAS.md

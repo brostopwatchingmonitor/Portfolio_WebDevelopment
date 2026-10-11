@@ -1049,7 +1049,9 @@ html.lenis, html.lenis body { height: auto; }
 .mc-step:last-child h3 { color: var(--label-green); }
 .mc-step p { font-size: 13px; line-height: 1.65; color: var(--muted); }
 
-/* chain arrow sitting in the gap between cards */
+/* chain arrow sitting in the gap between cards
+   --arrow (default 1) is tweened by main.js Pattern 7 to draw the
+   chain in; no-JS / reduced-motion always shows the final state */
 .mc-step:not(:last-child)::after {
   content: "→";
   position: absolute;
@@ -1058,6 +1060,8 @@ html.lenis, html.lenis body { height: auto; }
   translate: 50% -50%;
   color: var(--marigold);
   font: 700 24px/1 var(--f-body);
+  transform: scaleX(var(--arrow, 1));
+  transform-origin: left center;
   z-index: 2;
 }
 
