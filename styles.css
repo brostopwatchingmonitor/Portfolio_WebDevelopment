@@ -1001,3 +1001,84 @@ html.lenis, html.lenis body { height: auto; }
   .cs-grid { grid-template-columns: 1fr; }
   .cs-chart--wide { grid-column: auto; }
 }
+
+/* ============================================================
+   METHOD CHAIN — "How I Work" section (replaced Icon Set tiles)
+   mc- prefix → scoped, zero overlap. Reuses existing motion:
+   data-stagger (sticker-stick + pin drop) + data-reveal head.
+   No CSS initial-hidden states → reduced-motion needs no fallback
+   (JS hide() is what hides these, and JS never runs when off).
+   ============================================================ */
+.mc-flow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--s4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mc-step {
+  position: relative;
+  flex: 1 1 210px;
+  max-width: 270px;
+  background: var(--cream);
+  color: var(--body);
+  text-align: center;
+  border-radius: var(--r-paper);
+  padding: var(--s5) var(--s3) var(--s4);
+  box-shadow: var(--shadow);
+  rotate: -1.5deg;
+}
+.mc-step:nth-child(even) { rotate: 1.5deg; }
+.mc-step:last-child { background: var(--butter); }
+
+.mc-step .ico {
+  display: block;
+  font-size: 34px;
+  line-height: 1.2;
+  font-style: normal;
+}
+.mc-step h3 {
+  font: 400 clamp(18px, 1.8vw, 24px) / 1.05 var(--f-label);
+  text-transform: uppercase;
+  color: var(--brick);
+  margin: var(--s2) 0 var(--s1);
+}
+.mc-step:last-child h3 { color: var(--label-green); }
+.mc-step p { font-size: 13px; line-height: 1.65; color: var(--muted); }
+
+/* chain arrow sitting in the gap between cards */
+.mc-step:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  top: 50%;
+  right: calc(var(--s4) / -2);
+  translate: 50% -50%;
+  color: var(--marigold);
+  font: 700 24px/1 var(--f-body);
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mc-step {
+    transition:
+      translate var(--duration-normal) var(--ease-out-quart),
+      rotate    var(--duration-normal) var(--ease-out-quart);
+  }
+  .mc-step:hover { translate: 0 -6px; rotate: 0deg !important; }
+}
+
+@media (max-width: 900px) {
+  .mc-flow { flex-direction: column; align-items: center; }
+  .mc-step { max-width: 420px; width: 100%; flex: 1 1 auto; }
+  .mc-step:not(:last-child)::after {
+    content: "↓";
+    top: auto;
+    right: auto;
+    bottom: calc(var(--s4) / -2);
+    left: 50%;
+    translate: -50% 50%;
+  }
+}
