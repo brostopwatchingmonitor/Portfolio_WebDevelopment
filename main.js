@@ -350,4 +350,77 @@
     });
     cta.addEventListener("pointerleave", () => { mx(0); my(0); });
   }
+
+  /* ============================================================
+     PATTERN 6 — case-study charts (merged from performance-graph.html)
+     Scoped to #case-study. Initial hidden states live in CSS with
+     .reduced / prefers-reduced-motion fallbacks (this whole block
+     is skipped when motion is off, so .reduced handles those).
+     ============================================================ */
+  const cs = q("#case-study")[0];
+  if (cs) {
+    const onView = (el, fn) =>
+      el && ScrollTrigger.create({ trigger: el, start: "top 82%", once: true, onEnter: fn });
+
+    /* 6a — delivery facts: ticks pop, progress bars fill */
+    const facts = cs.querySelector(".cs-facts");
+    onView(facts, () => {
+      gsap.to(q(".cs-tick", facts), {
+        scale: 1, duration: D.slow, ease: E.spring, stagger: ST.normal
+      });
+      gsap.to(q(".cs-prog", facts), {
+        scaleX: 1, duration: D.slowest, ease: E.expo,
+        stagger: ST.normal, delay: ST.loose
+      });
+      gsap.from(q(".cs-k", facts), {
+        y: 10, opacity: 0, duration: D.slow, ease: E.expo,
+        stagger: ST.normal, delay: ST.tight, clearProps: "transform,opacity"
+      });
+    });
+
+    /* 6b — conversion flow: nodes + edges light up in sequence,
+       then a pulse blooms on the WhatsApp node */
+    const flow = cs.querySelector(".cs-flow");
+    onView(flow, () => {
+      const seq = gsap.timeline();
+      q(".cs-node, .cs-edge", flow).forEach((el, i) =>
+        seq.to(el, { opacity: 1, y: 0, duration: D.slow, ease: E.expo }, i * ST.loose)
+      );
+      const wa = flow.querySelector(".cs-node.wa");
+      if (wa)
+        seq.fromTo(
+          wa,
+          { boxShadow: "0 0 0 0 rgba(37,211,102,.55)" },
+          { boxShadow: "0 0 0 14px rgba(37,211,102,0)", duration: D.slower, ease: "power2.out" },
+          "> -0.1"
+        );
+    });
+
+    /* 6c — timeline: spine draws down, steps slide in, dots pop */
+    const tlSec = cs.querySelector(".cs-tl");
+    onView(tlSec, () => {
+      const spine = tlSec.querySelector(".cs-spine");
+      if (spine)
+        gsap.to(spine, {
+          height: Math.max(tlSec.offsetHeight - 12, 0),
+          duration: D.slowest, ease: E.inout
+        });
+      gsap.to(q(".cs-step", tlSec), {
+        opacity: 1, x: 0, duration: D.slow, ease: E.expo,
+        stagger: ST.loose, delay: ST.tight
+      });
+      gsap.from(q(".cs-dot", tlSec), {
+        scale: 0, duration: D.slow, ease: E.spring,
+        stagger: ST.loose, delay: ST.tight
+      });
+    });
+
+    /* 6d — architecture boxes pop in */
+    const arch = cs.querySelector(".cs-arch");
+    onView(arch, () => {
+      gsap.to(q(".cs-box", arch), {
+        opacity: 1, scale: 1, duration: D.slow, ease: E.spring, stagger: ST.normal
+      });
+    });
+  }
 })();

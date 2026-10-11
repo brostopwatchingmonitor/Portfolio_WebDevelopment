@@ -571,7 +571,7 @@ html.lenis, html.lenis body { height: auto; }
 .badge:active { translate: 3px 5px; transition-duration: var(--duration-fast); }
 .badge:active::after { translate: 2px 2px; transition-duration: var(--duration-fast); }
 
-.badge--yellow { background: var(--sticker-yellow); border-color: var(--locker-lit);    color: var(--label-green); }
+.badge--yellow { background: var(--sticker-yellow); border-color: var(--locker-lit);    color: var(--rim); }
 .badge--red    { background: var(--brick);          border-color: var(--rim);           color: var(--sticker-yellow); }
 .badge--blue   { background: var(--cobalt);         border-color: var(--sticker-yellow);color: var(--sticker-yellow); }
 
@@ -681,6 +681,8 @@ html.lenis, html.lenis body { height: auto; }
   .hero { padding-top: 88px; padding-bottom: var(--s6); }
   .board { gap: var(--s3); padding: var(--s5); }
   .die   { font-size: clamp(48px, 9vw, 130px); }
+  .paddingicon {padding-left: 14%;}
+  .paddingicon2 {padding-left: 4%;}
 }
 @media (max-width: 900px) {
   .scene { padding-block: var(--s7); }
@@ -693,6 +695,7 @@ html.lenis, html.lenis body { height: auto; }
   .about-text p, .chapter-head p { text-align: left; }
   .starburst, .sticky-note-hero { display: none; }
   .badge { min-width: 0; justify-self: start; }
+  
 }
 @media (max-width: 520px) {
   .nav { padding: var(--s2) var(--s3); }
@@ -767,4 +770,234 @@ html.lenis, html.lenis body { height: auto; }
     transition: color var(--duration-normal) var(--ease-out-quart);
   }
   .print:hover figcaption { color: var(--navy); }
+}
+
+/* ============================================================
+   CASE STUDY SECTION — merged from performance-graph.html
+   Every selector is scoped under .case-study (or cs- prefixed)
+   → zero overlap with site styles or Tailwind utilities.
+   Visual language: cream paper cards + pin, tape tag, sticky
+   note, palette/type tokens from :root.
+   ============================================================ */
+.case-study { color: var(--cream); }
+
+.case-study .cs-head {
+  display: grid;
+  justify-items: center;
+  gap: var(--s3);
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto var(--s6);
+}
+.case-study .cs-head .die { margin-bottom: var(--s2); }
+.cs-sub {
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.75;
+  max-width: 62ch;
+  opacity: .92;
+}
+
+.cs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s5);
+  max-width: 1040px;
+  margin-inline: auto;
+}
+.cs-chart {
+  position: relative;
+  isolation: isolate;
+  background: var(--cream);
+  color: var(--body);
+  border-radius: var(--r-paper);
+  padding: clamp(26px, 3vw, 36px) clamp(20px, 2.6vw, 30px) clamp(22px, 2.4vw, 30px);
+  box-shadow: var(--shadow);
+  rotate: -1deg;
+}
+.cs-chart:nth-child(even) { rotate: 1deg; }
+.cs-chart--wide { grid-column: 1 / -1; }
+.cs-chart h3 {
+  font: 400 clamp(20px, 2.2vw, 27px) / 1.05 var(--f-label);
+  text-transform: uppercase;
+  color: var(--brick);
+  margin-bottom: 2px;
+}
+.cs-hint { font-size: 13px; color: var(--muted); margin-bottom: var(--s4); }
+
+/* ---- 1 · delivery facts ---- */
+.cs-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--s3);
+}
+.cs-fact {
+  position: relative;
+  overflow: hidden;
+  background: var(--butter);
+  border: 2px solid var(--sticker-yellow);
+  border-radius: var(--r-paper);
+  padding: var(--s3) var(--s3) var(--s4);
+}
+.cs-tick {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--locker);
+  color: var(--cream);
+  font: 800 14px/1 var(--f-body);
+  margin-bottom: var(--s2);
+  transform: scale(0);
+}
+.cs-k { font: 700 15px/1.3 var(--f-body); color: var(--charcoal); }
+.cs-v { font: 700 12.5px/1.4 var(--f-body); color: var(--label-green); margin-top: 2px; }
+.cs-prog {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--locker);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* ---- 2 · conversion flow ---- */
+.cs-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: var(--s3);
+}
+.cs-node {
+  flex: 0 0 auto;
+  min-width: 118px;
+  text-align: center;
+  background: #eceee4;
+  border: 2px solid #c9ccc4;
+  border-radius: var(--r-paper);
+  padding: 10px 14px;
+  opacity: 0;
+  transform: translateY(14px);
+}
+.cs-node .ico { display: block; font-size: 22px; line-height: 1.2; }
+.cs-node .t { font: 700 13px/1.3 var(--f-body); color: var(--charcoal); margin-top: 6px; }
+.cs-node .d { font-size: 11px; color: var(--muted); }
+.cs-node.wa  { border-color: #25d366; }
+.cs-node.win { border-color: var(--locker); background: var(--butter); }
+.cs-edge {
+  flex: 1 1 26px;
+  min-width: 26px;
+  height: 2px;
+  background: linear-gradient(90deg, #c9ccc4, var(--marigold));
+  position: relative;
+  opacity: 0;
+}
+.cs-edge::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--marigold);
+}
+.cs-flow-note { margin-top: var(--s4); font-size: 13px; color: var(--muted); }
+.cs-flow-note b { color: var(--locker); }
+
+/* ---- 3 · delivery timeline ---- */
+.cs-tl { position: relative; padding-left: 34px; }
+.cs-tl::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--notebook);
+}
+.cs-spine {
+  position: absolute;
+  left: 11px;
+  top: 6px;
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, var(--tape), var(--locker));
+}
+.cs-step { position: relative; margin-bottom: var(--s4); opacity: 0; transform: translateX(-16px); }
+.cs-step:last-child { margin-bottom: 0; }
+.cs-dot {
+  position: absolute;
+  left: -34px;
+  top: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 2px solid var(--navy);
+  display: grid;
+  place-items: center;
+  font: 800 12px/1 var(--f-body);
+  color: var(--navy);
+}
+.cs-step.done .cs-dot { border-color: var(--locker); background: var(--butter); color: var(--locker); }
+.cs-ph {
+  display: block;
+  font: 700 11px/1.4 var(--f-body);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--brick);
+}
+.cs-step.done .cs-ph { color: var(--locker); }
+.cs-ttl { font: 700 15px/1.3 var(--f-body); color: var(--charcoal); margin: 2px 0; }
+.cs-txt { font-size: 13px; line-height: 1.7; color: var(--muted); }
+
+/* ---- 4 · architecture ---- */
+.cs-arch {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--s3);
+}
+.cs-box {
+  background: #eceee4;
+  border: 2px solid #c9ccc4;
+  border-radius: var(--r-paper);
+  padding: var(--s3);
+  opacity: 0;
+  transform: scale(.94);
+}
+.cs-box .ico { display: block; font-size: 20px; line-height: 1.2; }
+.cs-box .t { font: 700 14px/1.3 var(--f-body); color: var(--charcoal); margin-top: 6px; }
+.cs-box .d { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.cs-box.hl { border-color: var(--navy); }
+.cs-box.wa { border-color: #25d366; }
+
+/* ---- honesty note (reuses existing .sticky-note) ---- */
+.case-study .cs-note {
+  max-width: 1040px;
+  margin: var(--s6) auto 0;
+  color: var(--body);
+  font-size: 14px;
+}
+.cs-note a { color: var(--navy); font-weight: 700; }
+
+/* ---- fallbacks: final states when JS motion is off ---- */
+@media (prefers-reduced-motion: reduce) {
+  .cs-node, .cs-step, .cs-box { opacity: 1; transform: none; }
+  .cs-tick  { transform: scale(1); }
+  .cs-prog  { transform: scaleX(1); }
+  .cs-edge  { opacity: 1; }
+  .cs-spine { height: auto; bottom: 6px; }
+}
+.reduced .cs-node, .reduced .cs-step, .reduced .cs-box { opacity: 1; transform: none; }
+.reduced .cs-tick  { transform: scale(1); }
+.reduced .cs-prog  { transform: scaleX(1); }
+.reduced .cs-edge  { opacity: 1; }
+.reduced .cs-spine { height: auto; bottom: 6px; }
+
+@media (max-width: 900px) {
+  .cs-grid { grid-template-columns: 1fr; }
+  .cs-chart--wide { grid-column: auto; }
 }
