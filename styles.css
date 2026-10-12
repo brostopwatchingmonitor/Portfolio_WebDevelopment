@@ -704,6 +704,9 @@ html.lenis, html.lenis body { height: auto; }
   .box { gap: var(--s3); }
   .obj { min-width: 120px; }
 }
+@media (max-width:350px){
+  .scene {justify-content: center; }
+}
 
 /* ============================================================
    REDUCED MOTION
