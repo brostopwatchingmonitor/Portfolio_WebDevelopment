@@ -354,6 +354,13 @@ html.lenis, html.lenis body { height: auto; }
 }
 .art.a4   {background: linear-gradient(150deg, var(--tape),     var(--locker-lit));}
 
+.art.a5   {
+  background-image: url("img/Web/profile1.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 /* ============================================================
    TOC BOX
    ============================================================ */
@@ -634,8 +641,25 @@ html.lenis, html.lenis body { height: auto; }
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  background: repeating-conic-gradient(var(--charcoal) 0 25%, #fff 0 50%) 0 0 / 18px 18px;
+  background-image: url("img/Web/akar-icons--instagram-fill.svg");
   color: transparent;
+}
+.qr testing {
+  width: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background-image: url("img/Web/akar-icons--github-fill.svg");
+  color: transparent;
+}
+/* Logo chip centered on the checkerboard pattern */
+.qr span img {
+  width: 62%;
+  height: 62%;
+  padding: 11%;
+  background: var(--cream);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
 }
 .copy { grid-column: 1 / -1; text-align: center; color: var(--cream); font-size: 13px; line-height: 1.4; }
 
